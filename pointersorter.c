@@ -4,9 +4,9 @@
 #include <ctype.h>
 
 typedef struct{
-	int a;
-	int b;
-}Node;
+	int numberWords;
+	int maximumLength;
+}StringInfo;
 
 
 
@@ -17,7 +17,7 @@ typedef struct{
 */
 
 
-void fillArray(char *array, char *s){
+void fillArray(char **array, char *s){
 	int arrayPosition;
 	int count;
 	int start;
@@ -30,8 +30,8 @@ void fillArray(char *array, char *s){
 
 
 	// While we haven't run off the string
-	while(s[i] != '\0')
-{
+	while(s[i] != '\0'){
+
 		// While we have a separator and have not fallen off the string, continue
 		while (!isalpha(s[i]) && s[i] != '\0')
 			i++;
@@ -51,7 +51,12 @@ void fillArray(char *array, char *s){
 		ptr[j] = '\0';
 		array[arrayPosition] = ptr;
 		arrayPosition++;
-		free(ptr);
+		
+
+		// Call a sorting algorithm on the array of pointers
+		// Print array of sorted words
+		// free all memory
+		// return to main
 	}
 
 }
@@ -59,12 +64,11 @@ void fillArray(char *array, char *s){
 
 
 
-int numWords(char *s){
-	int i;
-	int wordCount;
+StringInfo numWords(char *s){
+	int i, wordCount, maxLength, tempCount;
 
-	i = 0;
-	wordCount = 0;
+	i = wordCount = maxLength =  tempCount = 0;
+	StringInfo info;
 
 	while (s[i] != '\0'){
 
@@ -75,12 +79,24 @@ int numWords(char *s){
 		if(s[i] == '\0')
 			break;
 
-		while (isalpha(s[i]) && s[i] != '\0')
+		while (isalpha(s[i]) && s[i] != '\0'){
+			tempCount++;
 			i++;
+		}
 		wordCount++;
 
+		if (tempCount > maxLength)
+			maxLength = tempCount;
+		
+
+		tempCount = 0;
+
 	}
-	return wordCount;
+	
+	info.numWords = wordCount;
+	info.maximumLength = maxLength;
+
+	return info;
 }
 
 
@@ -99,10 +115,11 @@ int main(int argc, char *argv[]){
 
 	
 	char *string = argv[1];
-	wordCount = numWords(string);
-	printf("The number of words is %d\n", wordCount);
+	//wordCount = numWords(string);
+	StringInfo info = numWords(string);
+	printf("The number of words is %d\n", info.numberWords);
 	// char * arrayptr = (char *) malloc(wordCount * sizeof(char *))
-	char *arrayptr[wordCount];  // Create an array of size wordCount to store words
+	char *arrayptr[info.numberWords];  // Create an array of size wordCount to store words
 	fillArray(arrayptr, string);
 
 
