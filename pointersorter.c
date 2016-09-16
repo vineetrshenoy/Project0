@@ -30,8 +30,8 @@ void fillArray(char *array, char *s){
 
 
 	// While we haven't run off the string
-	while(s[i] != '\0'){
-
+	while(s[i] != '\0')
+{
 		// While we have a separator and have not fallen off the string, continue
 		while (!isalpha(s[i]) && s[i] != '\0')
 			i++;
@@ -90,7 +90,7 @@ int numWords(char *s){
 
 
 int main(int argc, char *argv[]){
-	int countOfWords;
+	int wordCount;
 
 	if (argc == 1){
 		printf("Not Enough Arguments: Terminating program\n");
@@ -99,10 +99,10 @@ int main(int argc, char *argv[]){
 
 	
 	char *string = argv[1];
-	countOfWords = numWords(string);
-	printf("The number of words is %d\n", countOfWords);
-
-	char *arrayptr[countOfWords];  // Create an array of size countOfWords to store words
+	wordCount = numWords(string);
+	printf("The number of words is %d\n", wordCount);
+	// char * arrayptr = (char *) malloc(wordCount * sizeof(char *))
+	char *arrayptr[wordCount];  // Create an array of size wordCount to store words
 	fillArray(arrayptr, string);
 
 
