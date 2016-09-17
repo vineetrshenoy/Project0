@@ -14,14 +14,18 @@ int numWords(char *s);
 int main(int argc, char *argv[]){
 	int wordCount;
 
-	if (argc == 1){
-		printf("Not Enough Arguments: Terminating program\n");
-		return 0;
+	if (argc != 2){
+		printf("Incorrect Number of Arguments: Terminating program\n");
+		return -1;
 	}
 
 	
 	char *string = argv[1];
 	wordCount = numWords(string);
+	if (wordCount == 0){
+		printf("No words present in string: Terminating Program\n");
+		return -1;
+	}
 	//printf("The number of words is %d\n", wordCount);
 	char *arrayptr[wordCount];  // Create an array of size wordCount to store words
 	fillArray(arrayptr, string, wordCount);
