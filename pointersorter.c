@@ -11,13 +11,13 @@ typedef struct{
 void quicksorter(char ** array, int left, int right);
 void swapElements(char ** array, int i, int j);
 void printWords(char ** array, int length);
-
+void freeMemory(char ** array, int arrayLength);
 /* INPUT: pointer to input string
    OUTPUT: The number of words, as defined by the assignment description
 
    This function determines how many words are in the input string
 */
-//simple comment
+
 
 void fillArray(char **array, char *s, int arrayLength){
 	
@@ -60,13 +60,26 @@ void fillArray(char **array, char *s, int arrayLength){
 		array[arrayPosition] = ptr;
 		arrayPosition++;
 		count = 0;
-		
+		ptr = NULL;
 	}
 
-	quicksorter(array, 0, arrayLength - 1);
-	printWords(array, arrayLength);
-	
+	quicksorter(array, 0, arrayLength - 1); //Sort the array using quicksort
+	printWords(array, arrayLength);     //print the array in order
+	freeMemory(array,arrayLength);		//Frees the memory created by malloc
+	//printf("Process complete\n");
 }
+
+
+void freeMemory(char ** array, int arrayLength){
+	int i;
+
+	for (i = 0; i < arrayLength; i++){
+		free(array[i]);
+		array[i] = NULL;
+	}
+}
+
+
 
 void printWords(char ** array, int arrayLength){
 	int i;
