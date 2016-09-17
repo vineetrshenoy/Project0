@@ -3,22 +3,39 @@
 #include <string.h>
 #include <ctype.h>
 
-typedef struct{
-	int numberOfWords;
-	int maximumLength;
-}StringInfo;
 
 void quicksorter(char ** array, int left, int right);
 void swapElements(char ** array, int i, int j);
 void printWords(char ** array, int length);
 void freeMemory(char ** array, int arrayLength);
+void fillArray(char **array, char *s, int arrayLength);
+int numWords(char *s);
+
+int main(int argc, char *argv[]){
+	int wordCount;
+
+	if (argc == 1){
+		printf("Not Enough Arguments: Terminating program\n");
+		return 0;
+	}
+
+	
+	char *string = argv[1];
+	wordCount = numWords(string);
+	//printf("The number of words is %d\n", wordCount);
+	char *arrayptr[wordCount];  // Create an array of size wordCount to store words
+	fillArray(arrayptr, string, wordCount);
+
+
+	return 0;	
+}
+
+
 /* INPUT: pointer to input string
    OUTPUT: The number of words, as defined by the assignment description
 
    This function determines how many words are in the input string
 */
-
-
 void fillArray(char **array, char *s, int arrayLength){
 	
 	int arrayPosition, count, start, i, j;
@@ -69,7 +86,12 @@ void fillArray(char **array, char *s, int arrayLength){
 	//printf("Process complete\n");
 }
 
+/*
+	INPUT: Array of char pointers; length of array
+	OUTPUT: None
 
+	This fuctions clear memory of malloc and sets pointers to null
+*/
 void freeMemory(char ** array, int arrayLength){
 	int i;
 
@@ -80,7 +102,12 @@ void freeMemory(char ** array, int arrayLength){
 }
 
 
+/*
+	INPUT: Array of char pointers; length of array
+	OUTPUT: None
 
+	This functions prints the array of words in sorted order
+*/
 void printWords(char ** array, int arrayLength){
 	int i;
 	for(i = 0; i < arrayLength; i++)
@@ -88,12 +115,18 @@ void printWords(char ** array, int arrayLength){
 
 }
 
+/*
+	INPUT: The string argument given from the command line
+	OUTPUT: The number of words in the string
 
-StringInfo numWords(char *s){
-	int i, wordCount, maxLength, tempCount;
-	StringInfo info;
+	This function takes the string given at the command line and outputs the 
+	number of words	in the string
+*/
+int numWords(char *s){
+	int i, wordCount;
+	
 
-	i = wordCount = maxLength =  tempCount = 0;
+	i = wordCount = 0;
 	
 
 	while (s[i] != '\0'){
@@ -108,29 +141,24 @@ StringInfo numWords(char *s){
 
 		//Find the words
 		while (isalpha(s[i]) && s[i] != '\0'){
-			tempCount++;
 			i++;
 		}
 		wordCount++;
 
-		//If a word of new maxLength is found, reassign
-		if (tempCount > maxLength)
-			maxLength = tempCount;
-		
-
-		tempCount = 0;
-
 	}
 	
-	//Setting values for return
-	info.numberOfWords = wordCount;
-	info.maximumLength = maxLength;
-
-	return info;
+	return wordCount;
 }
 
 
+/*
+	INPUT: The array of char* to words, the left-most index, the right-most index
+	OUTPUT: None
 
+	This function takes the array of char pointers and sorts it in alphabhetical order 
+	using quicksort. I used the book "The C Programming Language" by Kernighan and
+	Ritchie as a guide when devloping the quicksort.
+*/
 void quicksorter(char **array, int left, int right){
 	int i, last;
 
@@ -165,23 +193,3 @@ void swapElements(char ** array, int i, int j){
 
 
 
-int main(int argc, char *argv[]){
-	int wordCount;
-
-	if (argc == 1){
-		printf("Not Enough Arguments: Terminating program\n");
-		return 0;
-	}
-
-	
-	char *string = argv[1];
-	//wordCount = numWords(string);
-	StringInfo info = numWords(string);
-	printf("The number of words is %d\n", info.numberOfWords);
-	// char * arrayptr = (char *) malloc(wordCount * sizeof(char *))
-	char *arrayptr[info.numberOfWords];  // Create an array of size wordCount to store words
-	fillArray(arrayptr, string, info.numberOfWords);
-
-
-	return 0;	
-}
