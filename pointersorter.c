@@ -8,7 +8,9 @@ typedef struct{
 	int maximumLength;
 }StringInfo;
 
-
+void quicksorter(char ** array, int left, int right);
+void swapElements(char ** array, int i, int j);
+void printWords(char ** array, int length);
 
 /* INPUT: pointer to input string
    OUTPUT: The number of words, as defined by the assignment description
@@ -17,7 +19,7 @@ typedef struct{
 */
 //simple comment
 
-void fillArray(char **array, char *s){
+void fillArray(char **array, char *s, int arrayLength){
 	
 	int arrayPosition, count, start, i, j;
 
@@ -59,16 +61,11 @@ void fillArray(char **array, char *s){
 		arrayPosition++;
 		count = 0;
 		
-
-		// Call a sorting algorithm on the array of pointers
-		// Print array of sorted wordsh
-		// free all memory
-		// return to main
 	}
 
-
+	quicksorter(array, 0, arrayLength - 1);
 	printf("Values\n");
-
+	
 }
 
 
@@ -116,19 +113,19 @@ StringInfo numWords(char *s){
 
 
 
-void quicksorter(char *array, int left, int right){
-	int i, int last;
+void quicksorter(char **array, int left, int right){
+	int i, last;
 
 	if (left >= right)
 		return;
 	swapElements(array, left, (left+right)/2);
 	last = left;
 	for (i = left + 1; i <= right; i++){
-		if (strcmp(array[i], v[left]) < 0)
+		if (strcmp(array[i], array[left]) < 0)
 			swapElements(array, ++last, i);
 	}
 
-	swapElements(v, left, last);
+	swapElements(array, left, last);
 	quicksorter(array, left, last -1);
 	quicksorter(array, last + 1, right);
 
@@ -140,7 +137,7 @@ void swapElements(char ** array, int i, int j){
 
 	char * p;
 
-	temp = array[i];
+	p = array[i];
 	array[i] = array[j];
 	array[j] = p;
 
@@ -165,7 +162,7 @@ int main(int argc, char *argv[]){
 	printf("The number of words is %d\n", info.numberOfWords);
 	// char * arrayptr = (char *) malloc(wordCount * sizeof(char *))
 	char *arrayptr[info.numberOfWords];  // Create an array of size wordCount to store words
-	fillArray(arrayptr, string);
+	fillArray(arrayptr, string, info.numberOfWords);
 
 
 	return 0;	
