@@ -66,6 +66,7 @@ void fillArray(char **array, char *s){
 		// return to main
 	}
 
+
 	printf("Values\n");
 
 }
@@ -114,6 +115,36 @@ StringInfo numWords(char *s){
 }
 
 
+
+void quicksorter(char *array, int left, int right){
+	int i, int last;
+
+	if (left >= right)
+		return;
+	swapElements(array, left, (left+right)/2);
+	last = left;
+	for (i = left + 1; i <= right; i++){
+		if (strcmp(array[i], v[left]) < 0)
+			swapElements(array, ++last, i);
+	}
+
+	swapElements(v, left, last);
+	quicksorter(array, left, last -1);
+	quicksorter(array, last + 1, right);
+
+
+}
+
+
+void swapElements(char ** array, int i, int j){
+
+	char * p;
+
+	temp = array[i];
+	array[i] = array[j];
+	array[j] = p;
+
+}
 
 
 
