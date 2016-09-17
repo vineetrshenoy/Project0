@@ -15,7 +15,7 @@ typedef struct{
 
    This function determines how many words are in the input string
 */
-
+//simple comment
 
 void fillArray(char **array, char *s){
 	
