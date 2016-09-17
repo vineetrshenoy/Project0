@@ -64,11 +64,16 @@ void fillArray(char **array, char *s, int arrayLength){
 	}
 
 	quicksorter(array, 0, arrayLength - 1);
-	printf("Values\n");
+	printWords(array, arrayLength);
 	
 }
 
+void printWords(char ** array, int arrayLength){
+	int i;
+	for(i = 0; i < arrayLength; i++)
+		printf("%s\n", array[i]);
 
+}
 
 
 StringInfo numWords(char *s){
