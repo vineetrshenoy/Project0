@@ -16,7 +16,7 @@ int main(int argc, char *argv[]){
 
 	if (argc != 2){
 		printf("Incorrect Number of Arguments: Terminating program\n");
-		return -1;
+		exit(1);
 	}
 
 	
@@ -24,7 +24,8 @@ int main(int argc, char *argv[]){
 	wordCount = numWords(string);
 	if (wordCount == 0){
 		printf("No words present in string: Terminating Program\n");
-		return -1;
+		exit(1);
+
 	}
 	//printf("The number of words is %d\n", wordCount);
 	char *arrayptr[wordCount];  // Create an array of size wordCount to store words
@@ -69,6 +70,10 @@ void fillArray(char **array, char *s, int arrayLength){
 
 		//allocate memory for the specific word
 		char *ptr = (char *) malloc((count+1) *sizeof(char));
+		if (ptr == NULL){
+			printf("Not enough memory: Terminating Program\n");
+			exit(1);
+		}
 
 		//copy the word to ptr
 		for (j = 0; j < count; j++){
@@ -87,7 +92,7 @@ void fillArray(char **array, char *s, int arrayLength){
 	quicksorter(array, 0, arrayLength - 1); //Sort the array using quicksort
 	printWords(array, arrayLength);     //print the array in order
 	freeMemory(array,arrayLength);		//Frees the memory created by malloc
-	//printf("Process complete\n");
+	
 }
 
 /*
@@ -164,25 +169,35 @@ int numWords(char *s){
 	Ritchie as a guide when devloping the quicksort.
 */
 void quicksorter(char **array, int left, int right){
-	int i, last;
+	int i, end;
 
 	if (left >= right)
-		return;
-	swapElements(array, left, (left+right)/2);
-	last = left;
+		return;				//Simple case: only one element: One element array is sorted
+	swapElements(array, left, (left+right)/2);	//chosing a partition element and swapping it
+	end = left;
+	//moving elements smaller than pivot to left, items larger to right
 	for (i = left + 1; i <= right; i++){
 		if (strcmp(array[i], array[left]) < 0)
-			swapElements(array, ++last, i);
+			swapElements(array, ++end, i);
 	}
 
-	swapElements(array, left, last);
-	quicksorter(array, left, last -1);
-	quicksorter(array, last + 1, right);
+	swapElements(array, left, end);		//Moving the pivot
+	//Sorting the left and right halves
+	quicksorter(array, left, end -1);
+	quicksorter(array, end + 1, right);
 
 
 }
 
 
+
+/*
+	INPUT: The array of char* to words, index i and j of elements to be swapped
+	OUTPUT: None
+
+	This function swaps the pointers of two elements. This is a classic swap function
+	
+*/
 void swapElements(char ** array, int i, int j){
 
 	char * p;
