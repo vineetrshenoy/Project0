@@ -21,6 +21,11 @@ int main(int argc, char *argv[]){
 
 	
 	char *string = argv[1];
+	if (string == NULL){
+		printf("Null input string: Terminating program\n");
+		exit(1);
+	}
+
 	wordCount = numWords(string);
 	if (wordCount == 0){
 		printf("No words present in string: Terminating Program\n");
